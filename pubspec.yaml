@@ -32,6 +32,8 @@ dependencies:
     sdk: flutter
   flutter_hooks: ^0.18.0
   hooks_riverpod: ^2.1.1
+  hive_flutter: ^1.1.0 
+  graphql_flutter: ^5.1.2
 
 
   # The following adds the Cupertino Icons font to your application.
