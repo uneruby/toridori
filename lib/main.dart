@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
+          primarySwatch: Colors.green,
         ),
         home: const MyHomePage(),
       ),
@@ -59,82 +59,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String readRepositories = Constants.readRepositories;
 
-  FetchMoreOptions fetchMoreData(Map<String, dynamic> pageInfo) {
-    final String fetchMoreCursor = pageInfo['endCursor'];
-    FetchMoreOptions opts = FetchMoreOptions(
-      variables: {'cursor': fetchMoreCursor},
-      updateQuery: (previousResultData, fetchMoreResultData) {
-        final List<dynamic> repos = [
-          ...previousResultData?['user']['repositories']['edges']
-              as List<dynamic>,
-          ...fetchMoreResultData?['user']['repositories']['edges']
-              as List<dynamic>
-        ];
-
-        fetchMoreResultData?['user']['repositories']['edges'] = repos;
-
-        return fetchMoreResultData;
-      },
-    );
-
-    return opts;
-  }
-
-  Icon customIcon = const Icon(Icons.search);
-  Widget customSearchBar = const Text('My Github Demo App');
-  final TextEditingController userNameTextEditingController =
-      TextEditingController(text: "uneruby");
-
-  PreferredSizeWidget appBar(){
-    return AppBar(
-      title: customSearchBar,
-      automaticallyImplyLeading: false,
-      actions: [
-        IconButton(
-          onPressed: () {
-            setState(() {
-              if (customIcon.icon == Icons.search) {
-                customIcon = const Icon(Icons.cancel);
-                customSearchBar = ListTile(
-                  leading: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                    size: 28,
-                  ),
-                  title: TextFormField(
-                      cursorColor: Colors.white,
-                      controller: userNameTextEditingController,
-                      decoration: const InputDecoration(
-                        hintText: 'type userId...',
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontStyle: FontStyle.italic,
-                        ),
-                        border: InputBorder.none,
-                      ),
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                      onEditingComplete: () {
-                        setState(() {});
-                      }),
-                );
-              } else {
-                customIcon = const Icon(Icons.search);
-                customSearchBar = const Text('My Github Demo App');
-              }
-            });
-          },
-          icon: customIcon,
-        )
-      ],
-      centerTitle: true,
-    );
-  }
   @override
   Widget build(BuildContext context) {
-    debugPrint(readRepositories);
     return Query(
       options: QueryOptions(
         document: gql(readRepositories),
@@ -142,17 +68,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       builder: (QueryResult result, {FetchMore? fetchMore, Refetch? refetch}) {
         if (result.hasException) {
-          print(result.exception);
           return Text(result.exception.toString());
         }
 
         if (result.isLoading) {
-          print(result);
           return CircularProgressIndicator();
         }
 
         final issues = result.data?['repository']['issues']['nodes'] ?? [];
-        print(issues);
 
         return Scaffold(
           appBar: AppBar(
@@ -162,10 +85,13 @@ class _MyHomePageState extends State<MyHomePage> {
             itemCount: issues.length,
             itemBuilder: (context, index) {
               final issue = issues[index];
+              final labels = issue['labels']['nodes'];
+              // labelがついていない時空文字列を返す
+              final labelName = labels.isNotEmpty ? labels[0]['name'] : '';
 
               return ListTile(
                 title: Text(issue['title']),
-                subtitle: Text('by ${issue['author']['login']}'),
+                subtitle: Text('by ${issue['author']['login']} label: $labelName'),
                 trailing: Text(issue['createdAt']),
               );
             },
