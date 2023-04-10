@@ -35,10 +35,22 @@ class MyHomePage extends ConsumerWidget {
           appBar: AppBar(
             title: Text('Flutter Issues'),
             actions: <Widget>[
-              TextButton(onPressed: () {Future(() {
+              ElevatedButton(onPressed: () {Future(() {
                     _labelStateNotifier.setLabel("bug");
                   });}, 
-                  child: Text("bug"))
+                  child: const Text("bug")),
+              ElevatedButton(onPressed: () {Future(() {
+                    _labelStateNotifier.setLabel("documentation");
+                  });}, 
+                  child: const Text("documentation")),
+              ElevatedButton(onPressed: () {Future(() {
+                _labelStateNotifier.setLabel("duplicate");
+              });}, 
+              child: const Text("duplicate")),
+              ElevatedButton(onPressed: () {Future(() {
+                _labelStateNotifier.setLabel("duplicate");
+              });}, 
+              child: const Text("duplicate")),
             ],
           ),
           body: ListView.builder(
