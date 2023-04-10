@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Query(
       options: QueryOptions(
         document: gql(readRepositories),
-        variables: {'owner': 'uneruby', 'repo': 'toridori'},
+        variables: {'owner': 'uneruby', 'repo': 'toridori', 'name': 'bug'},
       ),
       builder: (QueryResult result, {FetchMore? fetchMore, Refetch? refetch}) {
         if (result.hasException) {
@@ -85,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
             itemCount: issues.length,
             itemBuilder: (context, index) {
               final issue = issues[index];
+              print(issue);
               final labels = issue['labels']['nodes'];
               // labelがついていない時空文字列を返す
               final labelName = labels.isNotEmpty ? labels[0]['name'] : '';
