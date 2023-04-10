@@ -4,7 +4,7 @@ import 'package:toridori/model/label_state.dart';
 class LabelStateNotifier extends StateNotifier<Label> {
   LabelStateNotifier() : super(Label("documentation"));
 
-  setLabel(String labelName){
+  Future setLabel(String labelName) async {
     state = state.copyWith(name: labelName);
   }
 }

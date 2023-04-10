@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:toridori/model/label_state.dart';
-import 'package:toridori/model/token.dart';
+import 'package:toridori/token.dart';
 import 'package:toridori/model/constants.dart';
 import 'package:toridori/notifier/label_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,6 +34,12 @@ class MyHomePage extends ConsumerWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text('Flutter Issues'),
+            actions: <Widget>[
+              TextButton(onPressed: () {Future(() {
+                    _labelStateNotifier.setLabel("bug");
+                  });}, 
+                  child: Text("bug"))
+            ],
           ),
           body: ListView.builder(
             itemCount: issues.length,
