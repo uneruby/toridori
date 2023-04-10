@@ -12,7 +12,7 @@ class MyHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _labelState = ref.watch(labelProvider);
-    final _labelStateNotifier = ref.watch(labelProvider.notifier);
+    final _labelStateNotifier = ref.read(labelProvider.notifier);
 
     print(_labelState);
     return Query(
@@ -49,6 +49,7 @@ class MyHomePage extends ConsumerWidget {
                 subtitle: Text('by ${issue['author']['login']} label: $labelName'),
                 trailing: Text(issue['createdAt']),
                 onTap: () {
+                  // ウィジェットツリーの構築までプロバイダーの値の変更を遅延
                   Future(() {
                     _labelStateNotifier.setLabel("bug");
                   });

@@ -44,4 +44,4 @@ app.*.map.json
 /android/app/release
 
 # my github token file
-/lib/token.dart
+/lib/model/token.dart
