@@ -1,9 +1,9 @@
 class Constants{
 
   static const String readRepositories = """
-query(\$owner:String!, \$repo:String!) {
+query(\$owner:String!, \$repo:String!, \$name: String!) {
             repository(owner:\$owner, name:\$repo) {
-              issues(last:50 labels:["bug"]) {
+              issues(last:50 labels:[\$name]) {
                 nodes {
                   id
                   number
