@@ -9,7 +9,7 @@ void main() async {
 
   final HttpLink httpLink = HttpLink('https://api.github.com/graphql');
 
-  const String myToken = Token.myToken;
+  final String myToken = token.myToken;
 
   final AuthLink authLink = AuthLink(
     getToken: () async => myToken,
