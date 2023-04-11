@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:toridori/model/label_state.dart';
-import 'package:toridori/token.dart';
 import 'package:toridori/model/constants.dart';
 import 'package:toridori/notifier/label_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:toridori/model/api_query.dart';
 
-class MyHomePage extends ConsumerWidget {
+class MyHomePage extends HookConsumerWidget {
   String readRepositories = Constants.readRepositories;
+
+  Object? queryResult;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _labelState = ref.watch(labelProvider);
     final _labelStateNotifier = ref.read(labelProvider.notifier);
+    // print(_labelState);
 
-    print(_labelState);
+    queryResult ??= Querymethod().query();
+
+    print(queryResult);
+
     return Query(
       options: QueryOptions(
         document: gql(readRepositories),
@@ -57,7 +62,7 @@ class MyHomePage extends ConsumerWidget {
             itemCount: issues.length,
             itemBuilder: (context, index) {
               final issue = issues[index];
-              print(issue);
+              //print(issue);
               final labels = issue['labels']['nodes'];
               // labelがついていない時空文字列を返す
               final labelName = labels.isNotEmpty ? labels[0]['name'] : '';
