@@ -8,7 +8,7 @@ import 'package:toridori/model/api_query.dart';
 class MyHomePage extends HookConsumerWidget {
   String readRepositories = Constants.readRepositories;
 
-  Object? queryResult;
+  QueryResult? queryResult;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,25 +16,24 @@ class MyHomePage extends HookConsumerWidget {
     final _labelStateNotifier = ref.read(labelProvider.notifier);
     // print(_labelState);
 
-    queryResult ??= Querymethod().query();
+    if(queryResult == null) {
+      queryResult = Querymethod().query();
+      print("呼び出し");
+    }
 
-    print(queryResult);
+    final allIssues = queryResult?.data?['repository']['issues']['nodes'] ?? [];
+    print(allIssues);
 
-    return Query(
-      options: QueryOptions(
-        document: gql(readRepositories),
-        variables: {'owner': 'uneruby', 'repo': 'toridori', 'name': _labelState.name},
-      ),
-      builder: (QueryResult result, {FetchMore? fetchMore, Refetch? refetch}) {
-        if (result.hasException) {
-          return Text(result.exception.toString());
-        }
 
-        if (result.isLoading) {
-          return CircularProgressIndicator();
-        }
+    final issues = allIssues.where((issue) {
+      final labels = issue['labels']['nodes'] as List<dynamic>;
+      if(_labelState.name == null){
+        return true;
+      }
+      return labels.any((label) => label['name'] == _labelState.name);
+    }).toList();
 
-        final issues = result.data?['repository']['issues']['nodes'] ?? [];
+    print(issues);
 
         return Scaffold(
           appBar: AppBar(
@@ -53,9 +52,9 @@ class MyHomePage extends HookConsumerWidget {
               });}, 
               child: const Text("duplicate")),
               ElevatedButton(onPressed: () {Future(() {
-                _labelStateNotifier.setLabel("duplicate");
+                _labelStateNotifier.setLabel(null);
               });}, 
-              child: const Text("duplicate")),
+              child: const Text("全て")),
             ],
           ),
           body: ListView.builder(
@@ -81,7 +80,5 @@ class MyHomePage extends HookConsumerWidget {
             },
           ),
         );
-      },
-    );
-  }
+      }
 }
