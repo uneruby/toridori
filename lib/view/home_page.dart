@@ -1,35 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:toridori/model/label_state.dart';
-import 'package:toridori/token.dart';
 import 'package:toridori/model/constants.dart';
 import 'package:toridori/notifier/label_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:toridori/model/api_query.dart';
 
-class MyHomePage extends ConsumerWidget {
+class MyHomePage extends HookConsumerWidget {
   String readRepositories = Constants.readRepositories;
+
+  QueryResult? queryResult;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _labelState = ref.watch(labelProvider);
     final _labelStateNotifier = ref.read(labelProvider.notifier);
+    // print(_labelState);
 
-    print(_labelState);
-    return Query(
-      options: QueryOptions(
-        document: gql(readRepositories),
-        variables: {'owner': 'uneruby', 'repo': 'toridori', 'name': _labelState.name},
-      ),
-      builder: (QueryResult result, {FetchMore? fetchMore, Refetch? refetch}) {
-        if (result.hasException) {
-          return Text(result.exception.toString());
-        }
+    if(queryResult == null) {
+      queryResult = Querymethod().query();
+      print("呼び出し");
+    }
 
-        if (result.isLoading) {
-          return CircularProgressIndicator();
-        }
+    final allIssues = queryResult?.data?['repository']['issues']['nodes'] ?? [];
+    print(allIssues);
 
-        final issues = result.data?['repository']['issues']['nodes'] ?? [];
+
+    final issues = allIssues.where((issue) {
+      final labels = issue['labels']['nodes'] as List<dynamic>;
+      if(_labelState.name == null){
+        return true;
+      }
+      return labels.any((label) => label['name'] == _labelState.name);
+    }).toList();
+
+    print(issues);
 
         return Scaffold(
           appBar: AppBar(
@@ -48,16 +52,16 @@ class MyHomePage extends ConsumerWidget {
               });}, 
               child: const Text("duplicate")),
               ElevatedButton(onPressed: () {Future(() {
-                _labelStateNotifier.setLabel("duplicate");
+                _labelStateNotifier.setLabel(null);
               });}, 
-              child: const Text("duplicate")),
+              child: const Text("全て")),
             ],
           ),
           body: ListView.builder(
             itemCount: issues.length,
             itemBuilder: (context, index) {
               final issue = issues[index];
-              print(issue);
+              //print(issue);
               final labels = issue['labels']['nodes'];
               // labelがついていない時空文字列を返す
               final labelName = labels.isNotEmpty ? labels[0]['name'] : '';
@@ -76,7 +80,5 @@ class MyHomePage extends ConsumerWidget {
             },
           ),
         );
-      },
-    );
-  }
+      }
 }

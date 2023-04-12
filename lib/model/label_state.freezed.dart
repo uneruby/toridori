@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Label {
-  String get name => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LabelCopyWith<Label> get copyWith => throw _privateConstructorUsedError;
@@ -27,7 +27,7 @@ abstract class $LabelCopyWith<$Res> {
   factory $LabelCopyWith(Label value, $Res Function(Label) then) =
       _$LabelCopyWithImpl<$Res, Label>;
   @useResult
-  $Res call({String name});
+  $Res call({String? name});
 }
 
 /// @nodoc
@@ -43,13 +43,13 @@ class _$LabelCopyWithImpl<$Res, $Val extends Label>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? name = freezed,
   }) {
     return _then(_value.copyWith(
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -60,7 +60,7 @@ abstract class _$$_LabelCopyWith<$Res> implements $LabelCopyWith<$Res> {
       __$$_LabelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name});
+  $Res call({String? name});
 }
 
 /// @nodoc
@@ -72,13 +72,13 @@ class __$$_LabelCopyWithImpl<$Res> extends _$LabelCopyWithImpl<$Res, _$_Label>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? name = freezed,
   }) {
     return _then(_$_Label(
-      null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -86,10 +86,10 @@ class __$$_LabelCopyWithImpl<$Res> extends _$LabelCopyWithImpl<$Res, _$_Label>
 /// @nodoc
 
 class _$_Label implements _Label {
-  const _$_Label(this.name);
+  const _$_Label({required this.name});
 
   @override
-  final String name;
+  final String? name;
 
   @override
   String toString() {
@@ -115,10 +115,10 @@ class _$_Label implements _Label {
 }
 
 abstract class _Label implements Label {
-  const factory _Label(final String name) = _$_Label;
+  const factory _Label({required final String? name}) = _$_Label;
 
   @override
-  String get name;
+  String? get name;
   @override
   @JsonKey(ignore: true)
   _$$_LabelCopyWith<_$_Label> get copyWith =>
