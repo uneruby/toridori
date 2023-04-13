@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:toridori/model/constants.dart';
 import 'package:toridori/notifier/label_notifier.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:toridori/model/api_query.dart';
+import 'package:toridori/model/widget/isuse_widget.dart';
 
 class MyHomePage extends HookConsumerWidget {
   String readRepositories = Constants.readRepositories;
@@ -16,26 +18,37 @@ class MyHomePage extends HookConsumerWidget {
     final _labelStateNotifier = ref.read(labelProvider.notifier);
     // print(_labelState);
 
-    if(queryResult == null) {
-      queryResult = Querymethod().query();
-      print("呼び出し");
-    }
+    // final Querymethod querymethod = Querymethod();
 
-    final allIssues = queryResult?.data?['repository']['issues']['nodes'] ?? [];
-    print(allIssues);
+    final config = ref.watch(
+      useMemoized(() => FutureProvider.autoDispose<QueryResult>((ref) async {
+        final queryResult = await Querymethod().query();
+        // print("queryResult");
+        print(queryResult);
+        return queryResult;
+      })),
+    );
 
+    // print("config");
+    // print(config);
 
-    final issues = allIssues.where((issue) {
-      final labels = issue['labels']['nodes'] as List<dynamic>;
-      if(_labelState.name == null){
-        return true;
-      }
-      return labels.any((label) => label['name'] == _labelState.name);
-    }).toList();
+    return config.when(
+      loading: () => const CircularProgressIndicator(),
+      error: (err, stack) => Text('Error: $err'),
+      data: (configData) {
+        final allIssues = configData.data?['repository']['issues']['nodes'] ?? [];
+        final issues = allIssues.where((issue) {
+          final labels = issue['labels']['nodes'] as List<dynamic>;
+          if (_labelState.name == null) {
+            return true;
+          }
+          return labels.any((label) => label['name'] == _labelState.name);
+        }).toList();
 
-    print(issues);
+      // print("issues");
+      // print(issues);
 
-        return Scaffold(
+      return Scaffold(
           appBar: AppBar(
             title: Text('Flutter Issues'),
             actions: <Widget>[
@@ -57,9 +70,13 @@ class MyHomePage extends HookConsumerWidget {
               child: const Text("全て")),
             ],
           ),
-          body: ListView.builder(
+          body:
+
+          ListView.builder(
             itemCount: issues.length,
             itemBuilder: (context, index) {
+              //return issueWidget(issues[index]);
+
               final issue = issues[index];
               //print(issue);
               final labels = issue['labels']['nodes'];
@@ -80,5 +97,7 @@ class MyHomePage extends HookConsumerWidget {
             },
           ),
         );
-      }
+    },
+    );
+  }
 }
