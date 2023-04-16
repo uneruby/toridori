@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../components/issue_detail_widget.dart';
 
-import '../components/isuse_widget.dart';
 
 class IsuueDetailPage extends StatelessWidget {
   IsuueDetailPage({super.key, required this.issue});
@@ -12,7 +12,7 @@ class IsuueDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Issue Detail'),
       ),
-      body: issueWidget(context, issue),
+      body: issueDetailWidget(context, issue),
     );
   }
 }

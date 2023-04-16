@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:toridori/view/parts/view_fullissue_button.dart';
 import 'package:toridori/view/parts/issue_discription.dart';
 
-Widget issueWidget(context, dynamic issue){
+Widget issueDetailWidget(context, dynamic issue){
   return Container(
     decoration: BoxDecoration(
       color: Colors.white,
@@ -27,9 +27,7 @@ Widget issueWidget(context, dynamic issue){
           (issue['closed'])?const Icon(Icons.check_circle, color: Colors.purple,):const Icon(Icons.info, color: Colors.green,), 
           Text(issue['title']),
           ],),
-        const SizedBox(height: 5.0),
         issueDiscription((issue)),
-        const SizedBox(height: 5.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -43,7 +41,6 @@ Widget issueWidget(context, dynamic issue){
                 Text(issue['createdAt']),
               ],
             ),
-            viewButton(context, issue),
           ],)
       ],
     ),
