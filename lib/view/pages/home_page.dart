@@ -5,7 +5,7 @@ import 'package:toridori/notifier/label_notifier.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:toridori/model/api_query.dart';
-import 'package:toridori/view/organism/isuse_widget.dart';
+import 'package:toridori/view/components/isuse_widget.dart';
 
 class MyHomePage extends HookConsumerWidget {
   String readRepositories = Constants.readRepositories;
@@ -70,27 +70,15 @@ class MyHomePage extends HookConsumerWidget {
               child: const Text("全て")),
             ],
           ),
-          body:
-
-          ListView.builder(
+          body:ListView.builder(
             itemCount: issues.length,
             itemBuilder: (context, index) {
-              //return issueWidget(issues[index]);
-
               final issue = issues[index];
               //print(issue);
               final labels = issue['labels']['nodes'];
               // labelがついていない時空文字列を返す
               final labelName = labels.isNotEmpty ? labels[0]['name'] : '';
-
               return issueWidget(context, issue);
-                // trailing: Text(issue['createdAt']),
-                // onTap: () {
-                //   // ウィジェットツリーの構築までプロバイダーの値の変更を遅延
-                //   Future(() {
-                //     _labelStateNotifier.setLabel("bug");
-                //   });
-                // },
             },
           ),
         );

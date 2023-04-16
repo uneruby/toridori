@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'organism/isuse_widget.dart';
+import '../components/isuse_widget.dart';
 
 class IsuueDetailPage extends StatelessWidget {
   IsuueDetailPage({super.key, required this.issue});

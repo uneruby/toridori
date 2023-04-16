@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:toridori/view/atoms/view_fullissue_button.dart';
-import 'package:toridori/view/molecules/issue_discription.dart';
+import 'package:toridori/view/parts/view_fullissue_button.dart';
+import 'package:toridori/view/parts/issue_discription.dart';
 
 Widget issueWidget(context, dynamic issue){
   return Container(
     decoration: BoxDecoration(
-      border: Border.all(color: const Color.fromARGB(255, 98, 98, 98)),
+      color: Colors.white,
+      boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey, //色
+                    spreadRadius: 1, 
+                    blurRadius: 3, 
+                    offset: Offset(1, 1),
+                  ),
+                ],
+    //   border: Border.all(color: const Color.fromARGB(255, 98, 98, 98)),
     borderRadius: BorderRadius.circular(5),
     ),
     width: double.infinity,

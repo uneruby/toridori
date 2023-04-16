@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../isuue_detail_page.dart';
+import '../pages/isuue_detail_page.dart';
 
 
 Widget viewButton(BuildContext context, dynamic issue){
