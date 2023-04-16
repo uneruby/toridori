@@ -5,7 +5,7 @@ import 'package:toridori/notifier/label_notifier.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:toridori/model/api_query.dart';
-import 'package:toridori/model/widget/isuse_widget.dart';
+import 'package:toridori/view/organism/isuse_widget.dart';
 
 class MyHomePage extends HookConsumerWidget {
   String readRepositories = Constants.readRepositories;
@@ -29,8 +29,8 @@ class MyHomePage extends HookConsumerWidget {
       })),
     );
 
-    // print("config");
-    // print(config);
+    print("config");
+    print(config);
 
     return config.when(
       loading: () => const CircularProgressIndicator(),
@@ -83,17 +83,14 @@ class MyHomePage extends HookConsumerWidget {
               // labelがついていない時空文字列を返す
               final labelName = labels.isNotEmpty ? labels[0]['name'] : '';
 
-              return ListTile(
-                title: Text(issue['title']),
-                subtitle: Text('by ${issue['author']['login']} label: $labelName'),
-                trailing: Text(issue['createdAt']),
-                onTap: () {
-                  // ウィジェットツリーの構築までプロバイダーの値の変更を遅延
-                  Future(() {
-                    _labelStateNotifier.setLabel("bug");
-                  });
-                },
-              );
+              return issueWidget(context, issue);
+                // trailing: Text(issue['createdAt']),
+                // onTap: () {
+                //   // ウィジェットツリーの構築までプロバイダーの値の変更を遅延
+                //   Future(() {
+                //     _labelStateNotifier.setLabel("bug");
+                //   });
+                // },
             },
           ),
         );

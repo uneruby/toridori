@@ -15,6 +15,10 @@ query(\$owner:String!, \$repo:String!) {
                   url
                   title
                   createdAt
+                  body
+                  comments(first: 100) {
+                    nodes { id body }
+                  }
                   author {
                     login
                   }
