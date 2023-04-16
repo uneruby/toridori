@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:toridori/view/parts/view_fullissue_button.dart';
 import 'package:toridori/view/parts/issue_discription.dart';
 
-Widget issueDetailWidget(context, dynamic issue){
+Widget IssueComment(context, dynamic comment){
   return Container(
     decoration: BoxDecoration(
       color: Colors.white,
@@ -21,18 +20,7 @@ Widget issueDetailWidget(context, dynamic issue){
     padding: const EdgeInsets.all(8),
     margin: const EdgeInsets.all(8),
     child: Column(
-       mainAxisAlignment: MainAxisAlignment.start,
-       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          child:Text('No.${issue['number']}')
-        ),
-        Row(children:[
-          (issue['closed'])?const Icon(Icons.check_circle, color: Colors.purple,):const Icon(Icons.info, color: Colors.green,), 
-          Text(issue['title']),
-          ],),
-        issueDiscription((issue)),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -40,13 +28,14 @@ Widget issueDetailWidget(context, dynamic issue){
             SizedBox(
               width: 30,
               height: 30,
-              child:Image.network(issue['author']['avatarUrl']),
+              child:Image.network(comment['author']['avatarUrl']),
             ),
-            Text(issue['author']['login']),
+            Text(comment['author']['login']),
           ],),
-          Text('${issue['createdAt']}'),
+          Text('${comment['createdAt']}'),
+        ],),
+        Text('${comment['body']}'),
       ],
-    ),
-  ],),
+    )
   );
 }

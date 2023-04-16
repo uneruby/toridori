@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toridori/view/components/issue_comment.dart';
 import '../components/issue_detail_widget.dart';
 
 
@@ -12,7 +13,17 @@ class IsuueDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Issue Detail'),
       ),
-      body: issueDetailWidget(context, issue),
+      body: Column(
+          children: [
+            issueDetailWidget(context, issue),
+            Flexible(child: ListView.builder(
+              itemCount: issue['comments']['nodes'].length,
+              itemBuilder: (context, index) {
+                final comment = issue['comments']['nodes'][index];
+                return IssueComment(context, comment);
+            })),
+        ],
+      ),
     );
   }
 }

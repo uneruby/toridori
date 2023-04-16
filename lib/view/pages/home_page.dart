@@ -53,17 +53,25 @@ class MyHomePage extends HookConsumerWidget {
             title: Text('Flutter Issues'),
             actions: <Widget>[
               ElevatedButton(onPressed: () {Future(() {
-                    _labelStateNotifier.setLabel("bug");
+                    _labelStateNotifier.setLabel("p: webview");
                   });}, 
-                  child: const Text("bug")),
+                  child: const Text("p: webview")),
               ElevatedButton(onPressed: () {Future(() {
-                    _labelStateNotifier.setLabel("documentation");
+                    _labelStateNotifier.setLabel("p: shared_preferences");
                   });}, 
-                  child: const Text("documentation")),
+                  child: const Text("p: shared_preferences")),
               ElevatedButton(onPressed: () {Future(() {
-                _labelStateNotifier.setLabel("duplicate");
+                _labelStateNotifier.setLabel("waiting for customer response");
               });}, 
-              child: const Text("duplicate")),
+              child: const Text("waiting for customer response")),
+              ElevatedButton(onPressed: () {Future(() {
+                _labelStateNotifier.setLabel("severe: new feature");
+              });}, 
+              child: const Text("severe: new feature")),
+              ElevatedButton(onPressed: () {Future(() {
+                _labelStateNotifier.setLabel("p: share");
+              });}, 
+              child: const Text("p: share")),
               ElevatedButton(onPressed: () {Future(() {
                 _labelStateNotifier.setLabel(null);
               });}, 

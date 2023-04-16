@@ -22,7 +22,10 @@ Widget issueWidget(context, dynamic issue){
     margin: const EdgeInsets.all(8),
     child: Column(
       children: [
-        Text('No.${issue['number']}'),
+        Container(
+          alignment: Alignment.centerLeft,
+          child:Text('No.${issue['number']}')
+        ),
         Row(children:[
           (issue['closed'])?const Icon(Icons.check_circle, color: Colors.purple,):const Icon(Icons.info, color: Colors.green,), 
           Text(issue['title']),
@@ -37,7 +40,11 @@ Widget issueWidget(context, dynamic issue){
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(children: [
-                const Icon(Icons.person),
+                SizedBox(
+                  width: 30,
+                  height: 30,
+                  child:Image.network(issue['author']['avatarUrl']),
+                ),
                 Text(issue['author']['login']),
                 ],),
                 Text(issue['createdAt']),
