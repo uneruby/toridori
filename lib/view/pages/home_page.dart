@@ -48,34 +48,22 @@ class MyHomePage extends HookConsumerWidget {
       // print("issues");
       // print(issues);
 
-      return Scaffold(
-          appBar: AppBar(
-            title: Text('Flutter Issues'),
-            actions: <Widget>[
-              ElevatedButton(onPressed: () {Future(() {
-                    _labelStateNotifier.setLabel("p: webview");
-                  });}, 
-                  child: const Text("p: webview")),
-              ElevatedButton(onPressed: () {Future(() {
-                    _labelStateNotifier.setLabel("p: shared_preferences");
-                  });}, 
-                  child: const Text("p: shared_preferences")),
-              ElevatedButton(onPressed: () {Future(() {
-                _labelStateNotifier.setLabel("waiting for customer response");
-              });}, 
-              child: const Text("waiting for customer response")),
-              ElevatedButton(onPressed: () {Future(() {
-                _labelStateNotifier.setLabel("severe: new feature");
-              });}, 
-              child: const Text("severe: new feature")),
-              ElevatedButton(onPressed: () {Future(() {
-                _labelStateNotifier.setLabel("p: share");
-              });}, 
-              child: const Text("p: share")),
-              ElevatedButton(onPressed: () {Future(() {
-                _labelStateNotifier.setLabel(null);
-              });}, 
-              child: const Text("全て")),
+      return SafeArea(child: DefaultTabController(
+        initialIndex: 0,
+        length: 6,
+        child: Scaffold(
+          appBar: TabBar(
+          labelColor: Colors.pink,
+          unselectedLabelColor: Colors.black,
+          onTap: _labelStateNotifier.setLabel, //タップしたtabs:[] のindex番号を_onItemTappedの引数(int index)として渡している
+            isScrollable: true,
+            tabs: const [
+              Tab(text: '全て'),
+              Tab(text: 'p: webview',),
+              Tab(text: 'p: shared_preferences'),
+              Tab(text: 'waiting for customer response'),
+              Tab(text: 'severe: new feature'),
+              Tab(text: 'p: share'),
             ],
           ),
           body:ListView.builder(
@@ -89,7 +77,8 @@ class MyHomePage extends HookConsumerWidget {
               return issueWidget(context, issue);
             },
           ),
-        );
+        ))
+      );
     },
     );
   }

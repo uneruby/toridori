@@ -9,10 +9,12 @@ class IsuueDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(child: Scaffold(
       appBar: AppBar(
-        title: Text('Issue Detail'),
-      ),
+        title: const Text('Issue Detail',style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black),
+        ),
       body: Column(
           children: [
             issueDetailWidget(context, issue),
@@ -24,6 +26,6 @@ class IsuueDetailPage extends StatelessWidget {
             })),
         ],
       ),
-    );
+    ));
   }
 }
