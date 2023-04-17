@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toridori/model/constants.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:toridori/token.dart';
 
 
@@ -30,7 +29,7 @@ Future query() async {
 
   final result = await client.value.query(QueryOptions(
     document: gql(readRepositories),
-    variables: {'owner': 'uneruby', 'repo': 'toridori'},
+    variables: const {'owner': 'uneruby', 'repo': 'toridori'},
   ));
 
   return result;

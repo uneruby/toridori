@@ -16,21 +16,14 @@ class MyHomePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _labelState = ref.watch(labelProvider);
     final _labelStateNotifier = ref.read(labelProvider.notifier);
-    // print(_labelState);
-
-    // final Querymethod querymethod = Querymethod();
 
     final config = ref.watch(
       useMemoized(() => FutureProvider.autoDispose<QueryResult>((ref) async {
         final queryResult = await Querymethod().query();
-        // print("queryResult");
         print(queryResult);
         return queryResult;
       })),
     );
-
-    print("config");
-    print(config);
 
     return config.when(
       loading: () => const CircularProgressIndicator(),
@@ -45,9 +38,6 @@ class MyHomePage extends HookConsumerWidget {
           return labels.any((label) => label['name'] == _labelState.name);
         }).toList();
 
-      // print("issues");
-      // print(issues);
-
       return SafeArea(child: DefaultTabController(
         initialIndex: 0,
         length: 6,
@@ -55,7 +45,7 @@ class MyHomePage extends HookConsumerWidget {
           appBar: TabBar(
           labelColor: Colors.pink,
           unselectedLabelColor: Colors.black,
-          onTap: _labelStateNotifier.setLabel, //タップしたtabs:[] のindex番号を_onItemTappedの引数(int index)として渡している
+          onTap: _labelStateNotifier.setLabel, 
             isScrollable: true,
             tabs: const [
               Tab(text: '全て'),
@@ -70,7 +60,6 @@ class MyHomePage extends HookConsumerWidget {
             itemCount: issues.length,
             itemBuilder: (context, index) {
               final issue = issues[index];
-              //print(issue);
               final labels = issue['labels']['nodes'];
               // labelがついていない時空文字列を返す
               final labelName = labels.isNotEmpty ? labels[0]['name'] : '';

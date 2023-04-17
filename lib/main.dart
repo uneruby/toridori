@@ -5,9 +5,8 @@ import 'package:toridori/view/pages/home_page.dart';
 void main() async {
   runApp(
     ProviderScope(
-    child: MyApp(
-    // client: client,
-  )));
+    child: MyApp()
+  ));
 }
 
 

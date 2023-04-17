@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:toridori/view/parts/issue_discription.dart';
 
 Widget IssueComment(context, dynamic comment){
   return Container(
@@ -7,13 +6,12 @@ Widget IssueComment(context, dynamic comment){
       color: Colors.white,
       boxShadow: const [
                   BoxShadow(
-                    color: Colors.grey, //色
+                    color: Colors.grey,
                     spreadRadius: 1, 
                     blurRadius: 3, 
                     offset: Offset(1, 1),
                   ),
                 ],
-    //   border: Border.all(color: const Color.fromARGB(255, 98, 98, 98)),
     borderRadius: BorderRadius.circular(5),
     ),
     width: double.infinity,

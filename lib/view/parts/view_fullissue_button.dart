@@ -4,7 +4,7 @@ import '../pages/isuue_detail_page.dart';
 
 Widget viewButton(BuildContext context, dynamic issue){
   return ElevatedButton(
-    child: Text('View full issue'),
+    child: const Text('View full issue'),
     onPressed: (){
       Navigator.push(
         context,

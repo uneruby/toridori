@@ -11,7 +11,7 @@ List<String?> labelName = [
 ];
 
 class LabelStateNotifier extends StateNotifier<Label> {
-  LabelStateNotifier() : super(Label(name: null));
+  LabelStateNotifier() : super(const Label(name: null));
 
   Future setLabel(int? index) async {
     state = state.copyWith(name: labelName[index!]);
