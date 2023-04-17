@@ -2,6 +2,9 @@
 
 A new Flutter project.
 
+##　追加機能
+各issueについて、それぞれに付いたコメントを見れるような機能を追加。
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
