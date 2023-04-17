@@ -2,7 +2,7 @@
 
 A new Flutter project.
 
-##　追加機能
+## 追加機能
 各issueについて、それぞれに付いたコメントを見れるような機能を追加。
 
 ## Getting Started
