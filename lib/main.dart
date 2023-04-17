@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:toridori/token.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:toridori/view/home_page.dart';
+import 'package:toridori/view/pages/home_page.dart';
 
 void main() async {
   runApp(

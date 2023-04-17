@@ -5,7 +5,7 @@ import 'package:toridori/notifier/label_notifier.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:toridori/model/api_query.dart';
-import 'package:toridori/model/widget/isuse_widget.dart';
+import 'package:toridori/view/components/isuse_widget.dart';
 
 class MyHomePage extends HookConsumerWidget {
   String readRepositories = Constants.readRepositories;
@@ -29,8 +29,8 @@ class MyHomePage extends HookConsumerWidget {
       })),
     );
 
-    // print("config");
-    // print(config);
+    print("config");
+    print(config);
 
     return config.when(
       loading: () => const CircularProgressIndicator(),
@@ -48,55 +48,37 @@ class MyHomePage extends HookConsumerWidget {
       // print("issues");
       // print(issues);
 
-      return Scaffold(
-          appBar: AppBar(
-            title: Text('Flutter Issues'),
-            actions: <Widget>[
-              ElevatedButton(onPressed: () {Future(() {
-                    _labelStateNotifier.setLabel("bug");
-                  });}, 
-                  child: const Text("bug")),
-              ElevatedButton(onPressed: () {Future(() {
-                    _labelStateNotifier.setLabel("documentation");
-                  });}, 
-                  child: const Text("documentation")),
-              ElevatedButton(onPressed: () {Future(() {
-                _labelStateNotifier.setLabel("duplicate");
-              });}, 
-              child: const Text("duplicate")),
-              ElevatedButton(onPressed: () {Future(() {
-                _labelStateNotifier.setLabel(null);
-              });}, 
-              child: const Text("全て")),
+      return SafeArea(child: DefaultTabController(
+        initialIndex: 0,
+        length: 6,
+        child: Scaffold(
+          appBar: TabBar(
+          labelColor: Colors.pink,
+          unselectedLabelColor: Colors.black,
+          onTap: _labelStateNotifier.setLabel, //タップしたtabs:[] のindex番号を_onItemTappedの引数(int index)として渡している
+            isScrollable: true,
+            tabs: const [
+              Tab(text: '全て'),
+              Tab(text: 'p: webview',),
+              Tab(text: 'p: shared_preferences'),
+              Tab(text: 'waiting for customer response'),
+              Tab(text: 'severe: new feature'),
+              Tab(text: 'p: share'),
             ],
           ),
-          body:
-
-          ListView.builder(
+          body:ListView.builder(
             itemCount: issues.length,
             itemBuilder: (context, index) {
-              //return issueWidget(issues[index]);
-
               final issue = issues[index];
               //print(issue);
               final labels = issue['labels']['nodes'];
               // labelがついていない時空文字列を返す
               final labelName = labels.isNotEmpty ? labels[0]['name'] : '';
-
-              return ListTile(
-                title: Text(issue['title']),
-                subtitle: Text('by ${issue['author']['login']} label: $labelName'),
-                trailing: Text(issue['createdAt']),
-                onTap: () {
-                  // ウィジェットツリーの構築までプロバイダーの値の変更を遅延
-                  Future(() {
-                    _labelStateNotifier.setLabel("bug");
-                  });
-                },
-              );
+              return issueWidget(context, issue);
             },
           ),
-        );
+        ))
+      );
     },
     );
   }

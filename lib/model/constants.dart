@@ -15,8 +15,26 @@ query(\$owner:String!, \$repo:String!) {
                   url
                   title
                   createdAt
+                  body
+                  comments(first: 100) {
+                    nodes { 
+                      id 
+                      body 
+                      createdAt           
+                      author {
+                        login
+                        avatarUrl
+                        ... on User {
+                          name
+                          email
+                        }
+                    }
+                  }
+                  }
                   author {
                     login
+                    avatarUrl
+                    url
                   }
                   assignees(first: 100) {
                     nodes { login name email }
